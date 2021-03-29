@@ -12,11 +12,44 @@ const showDate = function() {
     let now = dayjs(d);
     let nowEl = document.createElement("span")
     nowEl.textContent = `${now}`;
-    console.log(now);
     currentDayEl.appendChild(nowEl);
 }
 
 // scrolling down presents time blocks for standard business hours
+const renderHours = function() {
+    // loop thru hours in a day
+    for (let i = 0; i < 24; i++) {
+        let hour = dayjs().hour([i]);
+        // create the row element here
+        let hourRowEl = document.createElement("article");
+        hourRowEl.classList = `row`;
+        // and the hour display column
+        let hourDisplay = document.createElement("p");
+        hourDisplay.classList = `col-2`;
+        hourDisplay.textContent = `${hour}`;
+        // notes column
+        let hmmsDisplay = document.createElement(`textarea`);
+        hmmsDisplay.classList = `col-8`;
+
+        // edit & save buttoneds column
+        let buttonCol = document.createElement("div")
+        buttonCol.classList = `col-2`;
+        let editButton = document.createElement("p");
+        editButton.innerHTML = `<i class="fas fa-burn"></i>`;
+        let trashButton = document.createElement("p");
+        trashButton.innerHTML = `<i class="fas fa-bong"></i>`;
+
+        buttonCol.appendChild(editButton);
+
+        hourRowEl.appendChild(hourDisplay)
+        timeBlockBoxEl.appendChild(hourRowEl);
+    }   
+
+    // each timeblock has an input field and save button
+
+    // clicking time block's save button saves the input text to local storage
+}
+    
 
 // each block is color-coded to indicate whether it is in the past, present, or future
 
@@ -30,3 +63,4 @@ const schedLoader = function() {
 }
 
 showDate();
+renderHours();
