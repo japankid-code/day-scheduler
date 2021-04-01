@@ -10,10 +10,10 @@ dayjs().format();
 
 let day = dayjs()
 
-console.log(`${day.$H}`)
+console.log(`${day}`)
 
 // the current day is displayed at the top of the calendar
-const showDate = function() {
+const showDate = () => {
     let d = dayjs();
     let bd = dayjs('2021', '09', '01');
     let now = dayjs(d).utcOffset(customUtcOffset);
@@ -25,31 +25,38 @@ const showDate = function() {
 // scrolling down presents time blocks for standard business hours
 const renderHours = () => {
     // loop thru hours in a day
-    for (let i = 0; i < 24; i++) {
-        let hour = day.$H + i;
-        
-        if (hour >= 12) {
-            hour -= 12;
-        } 
+    for (let i = 9; i < 18; i++) {
+        let hour = i;
+        let meridiem = `ᵃᵐ`;
+        if (i > 11) {
+            meridiem = `ᵖᵐ`;
+            if (i > 12) {
+                hour -= 12;
+            }
+        }
         // create the row element here
         let hourRowEl = document.createElement("article");
-        hourRowEl.classList = `row`;
+        hourRowEl.classList = `row d-flex justify-content-center`;
         // and the hour display column
         let hourDisplay = document.createElement("span");
-        hourDisplay.classList = `col-2 d-flex border-left text-center align-items-center`;
-        hourDisplay.textContent = `${hour}`;
+        hourDisplay.classList = `col-1 d-flex border-left text-center align-items-center`;
+        hourDisplay.textContent = `${hour}${meridiem}`;
+        hourDisplay.setAttribute("data-hour", `${i}`);
         // notes column
-        let hmmsDisplay = document.createElement(`p`);
-        hmmsDisplay.classList = `col-9 border-left`;
+        let hmmsDisplay = document.createElement(`div`);
+        hmmsDisplay.classList = `note-card card col-10 border-left`;
+        hmmsDisplay.setAttribute("data-hour", `${i}`);
+        let notesEl = document.createElement('p')
+        notesEl.setAttribute("data-hour", `${i}`);
+        hmmsDisplay.append(notesEl);
 
-        // edit & save buttoneds column
+        // save button column
         let buttonCol = document.createElement("div")
         buttonCol.classList = `col-1 border-left border-right d-flex flex-column justify-content-center`;
-        let editButton = document.createElement("p");
-        editButton.innerHTML = `<i class="fas fa-burn"></i>`;
-        let trashButton = document.createElement("p");
-        trashButton.innerHTML = `<i class="fas fa-bong"></i>`;
-        buttonCol.append(editButton, trashButton);
+        let saveButton = document.createElement("p");
+        saveButton.innerHTML = `<i class="fas fa-burn"></i>`;
+        saveButton.setAttribute("data-hour", `${i}`);
+        buttonCol.append(saveButton);
 
         hourRowEl.append(hourDisplay, hmmsDisplay, buttonCol);
         timeBlockBoxEl.appendChild(hourRowEl);
@@ -74,3 +81,14 @@ const schedLoader = function() {
 
 showDate();
 renderHours();
+
+
+
+$(".list-group").on("click", "p", function() {
+    var text = $(this).text();
+    // clicking on the p will change it to a textarea
+    var textInput = $("<textarea>").addClass("form-control").val(text);
+    $(this).replaceWith(textInput);
+    textInput.trigger("focus");
+    // click off the textarea
+  });
