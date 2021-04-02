@@ -2,15 +2,15 @@
 const currentDayEl = document.getElementById("current-day");
 const timeBlockBoxEl = document.getElementById("time-block-box");
 let notesObj = {
-    9: '9',
-    10: '10',
-    11: '11',
-    12: '12',
-    13: '13',
-    14: '14',
-    15: '15',
-    16: '16',
-    17: '17'
+     9: ' ',
+    10: ' ',
+    11: ' ',
+    12: ' ',
+    13: 'click to leave note!',
+    14: ' ',
+    15: ' ',
+    16: ' ',
+    17: ' '
 }; // access these props as you would an array, with notesObj[n]
 
 const customUtcOffset = 240; //mins
@@ -40,10 +40,10 @@ const renderHours = () => {
         }
         // create the row element here
         let hourRowEl = document.createElement("article");
-        hourRowEl.classList = `row d-flex justify-content-center`;
+        hourRowEl.classList = `row d-flex border justify-content-center`;
         // and the hour display column
         let hourDisplay = document.createElement("span");
-        hourDisplay.classList = `col-1 d-flex border-left text-center align-items-center`;
+        hourDisplay.classList = `col-1 d-flex border-left border-right text-center align-items-center`;
         hourDisplay.textContent = `${hour}${meridiem}`;
         hourDisplay.setAttribute("data-hour", `hour-${i}`);
         // notes column
@@ -100,7 +100,10 @@ let editHandler = (e) => {
 const saveHandler = (e, hour) => {
     // find the element to capture the notes from
     let noteEditEl = document.getElementById(`note-edit`); // the textarea
-    // use value for inputs like textarea!!
+    // use value for inputs like textarea!! but check if there's content first
+    if (noteEditEl.value === null) {
+        noteEditEl.value = ` `;
+    }
     let notes = noteEditEl.value;
     noteEditEl.textContent = `${notes}`;
     // update the notes object
@@ -109,7 +112,6 @@ const saveHandler = (e, hour) => {
     localStorage.setItem("notesObj", JSON.stringify(notesObj));
     // and reconverts it to p ele
     let noteSaveEl = document.querySelector(`[data-hour="note-${hour}"]`)
-    console.log(noteSaveEl)
     noteSaveEl.textContent = `${notes}`;
     noteSaveEl.classList = `note card-body`;
     // replaces the textarea with the divvy
@@ -118,7 +120,12 @@ const saveHandler = (e, hour) => {
 
 
 // refreshing the page, the saved events persist
-const schedLoader = () => (notesObj = JSON.parse(localStorage.getItem(`notesObj`)));
+const schedLoader = () => {
+    if (localStorage.getItem(`notesObj`) === null) {
+        localStorage.setItem('notesObj', JSON.stringify(notesObj));
+    }
+    notesObj = JSON.parse(localStorage.getItem(`notesObj`));
+};
 
 
 showDate();
