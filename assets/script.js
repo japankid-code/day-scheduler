@@ -18,12 +18,10 @@ dayjs.extend(window.dayjs_plugin_objectSupport)
 dayjs.extend(window.dayjs_plugin_customParseFormat)
 dayjs.extend(window.dayjs_plugin_advancedFormat)
 
-console.log(dayjs({}))
-
 // the current day is displayed at the top of the calendar
 const showDate = () => {
 
-    let now = dayjs().format(`h:m MMM DD YYYY`);
+    let now = dayjs().format(`hh:mm MMM DD YYYY`);
 
     let nowEl = document.createElement("span")
     nowEl.textContent = `${now}`;
@@ -130,16 +128,38 @@ const schedLoader = () => {
     notesObj = JSON.parse(localStorage.getItem(`notesObj`));
 };
 
-const colorChecker = () => {
-    let timer = setInterval((() => {
-        console.log(`color checked`)
-    }), 3000);
+const colorSetter = () => {
+    let notes = Array.from(timeBlockBoxEl.children)
+    // for each one, make a selector to grab the note
+    notes.forEach((note, index) => {
+        // get the hour
+        let now = dayjs().format(`h`)
+        // letable the element
+        let noteDataN = document.querySelector(`[data-hour="note-${index + 9}"]`);
+        // get a substring of noteN
+        let hour = index + 9;
+        // check now against hour to set the classes
+        if (now < hour) {
+            noteDataN.classList.add("future");
+        }
+        if (now == hour) {
+            noteDataN.classList.add("present")
+        }
+        if (now > hour) {
+            noteDataN.classList.add("past")
+        }
+    })
+}
+
+let colorChecker = () => {
+    const timer = setInterval((() => {colorSetter()}), 1000);
 }
 
 const appLoader = () => {
     showDate();
     schedLoader();
     renderHours();
+    colorSetter();
     colorChecker();
 }
 
