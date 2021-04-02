@@ -20,9 +20,7 @@ dayjs.extend(window.dayjs_plugin_advancedFormat)
 
 // the current day is displayed at the top of the calendar
 const showDate = () => {
-
     let now = dayjs().format(`hh:mm MMM DD YYYY`);
-
     let nowEl = document.createElement("span")
     nowEl.textContent = `${now}`;
     currentDayEl.appendChild(nowEl);
@@ -103,7 +101,6 @@ const saveHandler = (e, hour) => {
     // find the element to capture the notes from
     let noteEditEl = document.getElementById(`note-edit`); // the textarea
     // use value for inputs like textarea!! but check if there's content first
-    console.log(noteEditEl)
     if (noteEditEl === null) {
         return;
     }
