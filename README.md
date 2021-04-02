@@ -2,7 +2,7 @@
 
 Starter code copied from [here](https://github.com/coding-boot-camp/super-disco).
 Repo is [here](https://github.com/japankid-code/day-scheduler).
-Site is deployed [here](https://japankid-codejapankid-code.github.io/day-scheduler).
+Site is deployed [here](https://japankid-code.github.io/day-scheduler/).
 
 ## basic outline of functionality
 
@@ -17,7 +17,7 @@ refreshing the page the saved events persist
 
 ### preview of site
 
-coming soon!
+![view of site layout](preview-ds.png)
 
 ### mockup image
 
