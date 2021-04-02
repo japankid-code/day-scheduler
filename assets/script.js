@@ -42,10 +42,10 @@ const renderHours = () => {
         }
         // create the row element here
         let hourRowEl = document.createElement("article");
-        hourRowEl.classList = `row d-flex border justify-content-center`;
+        hourRowEl.classList = `row d-flex justify-content-center`;
         // and the hour display column
         let hourDisplay = document.createElement("span");
-        hourDisplay.classList = `col-1 d-flex border-left border-right text-center align-items-center`;
+        hourDisplay.classList = `hour col-1 d-flex text-center align-items-center`;
         hourDisplay.textContent = `${hour}${meridiem}`;
         hourDisplay.setAttribute("data-hour", `hour-${i}`);
         // notes column
@@ -55,7 +55,7 @@ const renderHours = () => {
         notesEl.classList = `note card-body`;
         // save button column
         let buttonCol = document.createElement("div");
-        buttonCol.classList = `col-1 border-left border-right d-flex flex-column justify-content-center`;
+        buttonCol.classList = `saveBtn col-1 d-flex flex-column justify-content-center`;
         let saveButton = document.createElement("p");
         saveButton.innerHTML = `<i class="save-button fas fa-burn" data-hour="save-"></i>`;
         saveButton.setAttribute("data-hour", `save-${i}`);
