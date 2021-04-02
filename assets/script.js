@@ -13,14 +13,14 @@ let notesObj = {
     17: `...`
 }; // access these props as you would an array, with notesObj[n]
 
-const customUtcOffset = 240; //mins
-dayjs.extend(window.dayjs_plugin_objectSupport)
-dayjs.extend(window.dayjs_plugin_customParseFormat)
-dayjs.extend(window.dayjs_plugin_advancedFormat)
+dayjs.extend(window.dayjs_plugin_objectSupport);
+dayjs.extend(window.dayjs_plugin_customParseFormat);
+dayjs.extend(window.dayjs_plugin_advancedFormat);
+dayjs.extend(window.dayjs_plugin_buddhistEra);
 
 // the current day is displayed at the top of the calendar
 const showDate = () => {
-    let now = dayjs().format(`hh:mm MMM DD YYYY`);
+    let now = dayjs().format(`hh:mm MMM DD BBBB`);
     let nowEl = document.createElement("span")
     nowEl.textContent = `${now}`;
     currentDayEl.appendChild(nowEl);
