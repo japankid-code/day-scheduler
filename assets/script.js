@@ -118,6 +118,7 @@ const saveHandler = (e, hour) => {
     noteSaveEl.classList = `note card-body`;
     // replaces the textarea with the divvy
     noteEditEl.replaceWith(noteSaveEl);
+    colorSetter();
 }
 
 // refreshing the page, the saved events persist
