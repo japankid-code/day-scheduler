@@ -103,8 +103,9 @@ const saveHandler = (e, hour) => {
     // find the element to capture the notes from
     let noteEditEl = document.getElementById(`note-edit`); // the textarea
     // use value for inputs like textarea!! but check if there's content first
-    if (noteEditEl.value === null) {
-        noteEditEl.value = ` `;
+    console.log(noteEditEl)
+    if (noteEditEl === null) {
+        return;
     }
     let notes = noteEditEl.value;
     noteEditEl.textContent = `${notes}`;
@@ -134,7 +135,7 @@ const colorSetter = () => {
     // for each one, make a selector to grab the note
     notes.forEach((note, index) => {
         // get the hour
-        let now = dayjs().format(`h`)
+        let now = dayjs().format(`H`)
         // letable the element
         let noteDataN = document.querySelector(`[data-hour="note-${index + 9}"]`);
         // get a substring of noteN
