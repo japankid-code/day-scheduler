@@ -2,25 +2,27 @@
 const currentDayEl = document.getElementById("current-day");
 const timeBlockBoxEl = document.getElementById("time-block-box");
 let notesObj = {
-     9: ' ',
-    10: ' ',
-    11: ' ',
-    12: ' ',
+     9: `...`,
+    10: `...`,
+    11: `...`,
+    12: `...`,
     13: 'click to leave note!',
-    14: ' ',
-    15: ' ',
-    16: ' ',
-    17: ' '
+    14: `...`,
+    15: `...`,
+    16: `...`,
+    17: `...`
 }; // access these props as you would an array, with notesObj[n]
 
 const customUtcOffset = 240; //mins
-
-
+dayjs.extend(window.dayjs_plugin_objectSupport)
+dayjs.extend(window.dayjs_plugin_customParseFormat)
+dayjs.extend(window.dayjs_plugin_advancedFormat)
 
 // the current day is displayed at the top of the calendar
 const showDate = () => {
 
-    let now = dayjs().format();
+    let now = dayjs().format(`hh:mm MMM DD YYYY`);
+
     let nowEl = document.createElement("span")
     nowEl.textContent = `${now}`;
     currentDayEl.appendChild(nowEl);
@@ -116,8 +118,8 @@ const saveHandler = (e, hour) => {
     noteSaveEl.classList = `note card-body`;
     // replaces the textarea with the divvy
     noteEditEl.replaceWith(noteSaveEl);
+    colorSetter();
 }
-
 
 // refreshing the page, the saved events persist
 const schedLoader = () => {
@@ -127,10 +129,39 @@ const schedLoader = () => {
     notesObj = JSON.parse(localStorage.getItem(`notesObj`));
 };
 
+const colorSetter = () => {
+    let notes = Array.from(timeBlockBoxEl.children)
+    // for each one, make a selector to grab the note
+    notes.forEach((note, index) => {
+        // get the hour
+        let now = dayjs().format(`h`)
+        // letable the element
+        let noteDataN = document.querySelector(`[data-hour="note-${index + 9}"]`);
+        // get a substring of noteN
+        let hour = index + 9;
+        // check now against hour to set the classes
+        if (now < hour) {
+            noteDataN.classList.add("future");
+        }
+        if (now == hour) {
+            noteDataN.classList.add("present")
+        }
+        if (now > hour) {
+            noteDataN.classList.add("past")
+        }
+    })
+}
 
-showDate();
-schedLoader();
-renderHours();
+let colorChecker = () => {
+    const timer = setInterval((() => {colorSetter()}), 1000);
+}
 
+const appLoader = () => {
+    showDate();
+    schedLoader();
+    renderHours();
+    colorSetter();
+    colorChecker();
+}
 
-// adds an event listener to the div holding the notes element
+appLoader();
